@@ -1,0 +1,159 @@
+title TopLaptops eco-system
+
+actor client
+participantgroup #lightblue **Interface**
+control controller
+participant result tab
+end
+database TopLaptop database
+
+
+
+participantgroup #lightgreen **Data Collection**
+participant web-crawler
+database vendor's laptop's db
+participant AI laptop's Ranker
+database benchmark
+end
+
+
+web-crawler->vendor's laptop's db:scanning
+vendor's laptop's db->web-crawler:recived data
+web-crawler->TopLaptop database:compareing
+
+note over TopLaptop database,AI laptop's Ranker:only if new data found at the compare scenario
+TopLaptop database->AI laptop's Ranker:sending data
+AI laptop's Ranker->benchmark:searching
+benchmark->AI laptop's Ranker:return results
+AI laptop's Ranker->TopLaptop database:update new data
+
+
+client->controller:user input
+controller->TopLaptop database:data request
+TopLaptop database->result tab:sorted data recived
+client->result tab:click to buy
+
+
+
+
+
+
+
+
+
+
+
+
+*************************
+
+
+title Level selection of laptops type's
+
+actor Client
+
+participantgroup #lightyellow **pre-filter: select level**
+participant Basic
+participant Portability
+participant Graphic
+participant WorkStation
+participant TouchScreen
+participant "Next"
+end
+
+participantgroup #lightblue **Interface**
+participant Interface
+end
+database TopLaptop's DataBase
+
+note over Basic:defult radio select - "level -"
+
+note over Portability:"Level I"
+Client->Portability:Radio Button
+note over Graphic:"Level II"
+Client->Graphic:Radio Button
+note over WorkStation:"Level III"
+Client->WorkStation:Radio Button
+Client->TouchScreen:Check/Uncheck Box
+
+Client->"Next":Click Button
+
+TopLaptop's DataBase<-"Next":Send Request
+Interface<-"Next":Send Data
+TopLaptop's DataBase->Interface:Received Data
+Interface->Client:View page accordding tp the selected values
+
+
+
+**********************************
+
+title Ranking attribute slider’s
+
+actor Client
+
+participantgroup #lightblue **interface**
+control Preformence
+control Storage
+control Durability
+control Screen
+control Portability/Graphic
+
+participant "Next"
+participant Result tab
+end
+
+database TopLaptop's database
+
+Client->Preformence:set slider value
+Client->Storage:set slider value
+Client->Durability:set slider value
+Client->Screen:set slider value
+Client->Portability/Graphic:set slider value
+
+Client->"Next":Click button
+TopLaptop's database<-"Next":Send data
+TopLaptop's database->Result tab:Recived data
+Client<-Result tab:show a ranked list of laptops
+
+
+
+
+
+
+***********************************************
+
+
+
+title Click to Buy
+
+
+actor Client
+
+participantgroup #lightblue **interface**
+participant Interface
+participant Result tab
+end
+
+database TopLaptop's database
+
+participantgroup #lightgreen **purchase page
+participant Specification
+participant "Order Now!"
+
+end
+
+participant product page
+
+Client->Result tab:click on specific laptop
+
+Result tab->TopLaptop's database:ID
+TopLaptop's database->Specification: set data
+Interface->Specification: set data
+Specification->Client:show compared detail relate to the user rank
+
+note over "Order Now!":""Amazone \ locally store""
+Client->"Order Now!":click to buy
+"Order Now!"->product page:go to
+
+
+
+
